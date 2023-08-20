@@ -3,5 +3,7 @@ const UserController = require("../../controller/user-controller");
 const router = express.Router();
 
 router.post('/signup',UserController.create);
+router.delete('/user/:id',UserController.destory);
+router.get('/user/:id',UserController.get)
 
 module.exports=router;

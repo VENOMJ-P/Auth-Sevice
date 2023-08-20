@@ -15,9 +15,21 @@ class UserService {
         }
     }
 
-    async destroy(data){
+    async destroy(id){
         try {
-            const user = await this.userRepository.destory(data);
+            const user = await this.userRepository.destory(id);
+            console.log(user);
+            return user;
+        } catch (error) {
+            console.log("Something went wrong in the service layer;");
+            throw error;
+        }
+    }
+
+    async getById(id){
+        try {
+            console.log(id);
+            const user = await this.userRepository.getById(id);
             return user;
         } catch (error) {
             console.log("Something went wrong in the service layer;");
