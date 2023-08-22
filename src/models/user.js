@@ -1,10 +1,8 @@
-'use strict';
-const bcrypt = require('bcrypt');
+"use strict";
+const bcrypt = require("bcrypt");
 
-const {
-  Model
-} = require('sequelize');
-const {SALT} = require('../config/serverConfig')
+const { Model } = require("sequelize");
+const { SALT } = require("../config/serverConfig");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -15,36 +13,39 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsToMany(models.Role,{
-        through:'User_Role'
-      })
+      this.belongsToMany(models.Role, {
+        through: "User_Role",
+      });
     }
   }
-  User.init({
-    email: {
-      type:DataTypes.STRING,
-      allowNull:false,
-      unique:true,
-      validate:{
-        isEmail:true
-      }
+  User.init(
+    {
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true,
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [3, 50],
+        },
+      },
     },
-    password: {
-      type:DataTypes.STRING,
-      allowNull:false,
-      validate:{
-        len: [3,50]
-      }
+    {
+      sequelize,
+      modelName: "User",
     }
-  }, {
-    sequelize,
-    modelName: 'User',
-  });
+  );
 
   User.beforeCreate((user) => {
     const encryptedPassword = bcrypt.hashSync(user.password, SALT);
-    user.password=encryptedPassword;
-  })
+    user.password = encryptedPassword;
+  });
 
   return User;
 };
