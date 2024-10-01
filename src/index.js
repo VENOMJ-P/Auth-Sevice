@@ -13,7 +13,7 @@ const serverConfigSetup = (req, res) => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.use("/api", apiRoutes);
+  app.use("/authService/api", apiRoutes);
 
   app.listen(PORT, async (req, re) => {
     console.log(`Server started at ${PORT}`);
